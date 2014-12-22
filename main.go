@@ -8,6 +8,7 @@ import (
 	"go/printer"
 	"go/token"
 	"os"
+	"github.com/davecgh/go-spew/spew"
 )
 
 func missingAction(c *cli.Context) {
@@ -16,8 +17,8 @@ func missingAction(c *cli.Context) {
 
 type Fooer struct{}
 func (s *Fooer) Visit(node ast.Node) ast.Visitor {
-	print("Oh such a beautiful node\n")
-	return s
+	spew.Dump(node)
+	return nil
 }
 
 func mainAction(c *cli.Context) {
