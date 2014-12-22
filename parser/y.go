@@ -134,7 +134,7 @@ const yyEofCode = 1
 const yyErrCode = 2
 const yyMaxDepth = 200
 
-//line go.y:2217
+//line go.y:1316
 
 
 func fixlbrace(lbr int) {
@@ -1069,974 +1069,538 @@ yydefault:
 	case 1:
 		//line go.y:124
 		{
-			xtop = concat(xtop, yyS[yypt-0].list);
 		}
 	case 2:
-		//line go.y:130
+		//line go.y:129
 		{
-			prevlineno = lineno;
-			yyerror("package statement must be first");
-			errorexit();
 		}
 	case 3:
-		//line go.y:136
+		//line go.y:132
 		{
-			mkpackage(yyS[yypt-1].sym.name);
 		}
 	case 4:
-		//line go.y:146
+		//line go.y:141
 		{
-			importpkg = runtimepkg;
-	
-			if(debug['A'])
-				cannedimports("runtime.builtin", "package runtime\n\n$$\n\n");
-			else
-				cannedimports("runtime.builtin", runtimeimport);
-			curio.importsafe = 1;
 		}
 	case 5:
-		//line go.y:157
+		//line go.y:145
 		{
-			importpkg = nil;
 		}
 	case 11:
-		//line go.y:171
+		//line go.y:158
 		{
-			Pkg *ipkg;
-			Sym *my;
-			Node *pack;
-			
-			ipkg = importpkg;
-			my = importmyname;
-			importpkg = nil;
-			importmyname = S;
-	
-			if(my == nil)
-				my = lookup(ipkg.name);
-	
-			pack = nod(OPACK, N, N);
-			pack.sym = my;
-			pack.pkg = ipkg;
-			pack.lineno = yyS[yypt-2].i;
-	
-			if(my.name[0] == '.') {
-				importdot(ipkg, pack);
-				break;
-			}
-			if(strcmp(my.name, "init") == 0) {
-				yyerror("cannot import package as init - init must be a func");
-				break;
-			}
-			if(my.name[0] == '_' && my.name[1] == '\0')
-				break;
-			if(my.def) {
-				lineno = yyS[yypt-2].i;
-				redeclare(my, "as imported package name");
-			}
-			my.def = pack;
-			my.lastlineno = yyS[yypt-2].i;
-			my.block = 1;	// at top level
-	}
+		}
 	case 12:
-		//line go.y:208
+		//line go.y:161
 		{
-			// When an invalid import path is passed to importfile,
-		// it calls yyerror and then sets up a fake import with
-		// no package statement. This allows us to test more
-		// than one invalid import statement in a single file.
-		if(nerrors == 0)
-				fatal("phase error in import");
 		}
 	case 15:
-		//line go.y:223
+		//line go.y:170
 		{
-			// import with original name
-		yyVAL.i = parserline();
-			importmyname = S;
-			importfile(&yyS[yypt-0].val, yyVAL.i);
 		}
 	case 16:
-		//line go.y:230
+		//line go.y:173
 		{
-			// import with given name
-		yyVAL.i = parserline();
-			importmyname = yyS[yypt-1].sym;
-			importfile(&yyS[yypt-0].val, yyVAL.i);
 		}
 	case 17:
-		//line go.y:237
+		//line go.y:176
 		{
-			// import into my name space
-		yyVAL.i = parserline();
-			importmyname = lookup(".");
-			importfile(&yyS[yypt-0].val, yyVAL.i);
 		}
 	case 18:
-		//line go.y:246
+		//line go.y:181
 		{
-			if(importpkg.name == nil) {
-				importpkg.name = yyS[yypt-2].sym.name;
-				pkglookup(yyS[yypt-2].sym.name, nil).npkg++;
-			} else if(strcmp(importpkg.name, yyS[yypt-2].sym.name) != 0)
-				yyerror("conflicting names %s and %s for package \"%Z\"", importpkg.name, yyS[yypt-2].sym.name, importpkg.path);
-			importpkg.direct = 1;
-			importpkg.safe = curio.importsafe;
-	
-			if(safemode && !curio.importsafe)
-				yyerror("cannot import unsafe package \"%Z\"", importpkg.path);
 		}
 	case 20:
-		//line go.y:261
+		//line go.y:186
 		{
-			if(strcmp(yyS[yypt-0].sym.name, "safe") == 0)
-				curio.importsafe = 1;
 		}
 	case 21:
-		//line go.y:267
+		//line go.y:190
 		{
-			defercheckwidth();
 		}
 	case 22:
-		//line go.y:271
+		//line go.y:193
 		{
-			resumecheckwidth();
-			unimportfile();
 		}
 	case 23:
-		//line go.y:280
+		//line go.y:200
 		{
-			yyerror("empty top-level declaration");
-			yyVAL.list = nil;
 		}
 	case 24:
 		yyVAL.list = yyS[yypt-0].list
 	case 25:
-		//line go.y:286
+		//line go.y:204
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 26:
-		//line go.y:290
+		//line go.y:207
 		{
-			yyerror("non-declaration statement outside function body");
-			yyVAL.list = nil;
 		}
 	case 27:
-		//line go.y:295
+		//line go.y:210
 		{
-			yyVAL.list = nil;
 		}
 	case 28:
-		//line go.y:301
+		//line go.y:215
 		{
-			yyVAL.list = yyS[yypt-0].list;
 		}
 	case 29:
-		//line go.y:305
+		//line go.y:218
 		{
-			yyVAL.list = yyS[yypt-2].list;
 		}
 	case 30:
-		//line go.y:309
+		//line go.y:221
 		{
-			yyVAL.list = nil;
 		}
 	case 31:
-		//line go.y:313
+		//line go.y:224
 		{
-			yyVAL.list = yyS[yypt-0].list;
-			iota = -100000;
-			lastconst = nil;
 		}
 	case 32:
-		//line go.y:319
+		//line go.y:227
 		{
-			yyVAL.list = yyS[yypt-2].list;
-			iota = -100000;
-			lastconst = nil;
 		}
 	case 33:
-		//line go.y:325
+		//line go.y:230
 		{
-			yyVAL.list = concat(yyS[yypt-4].list, yyS[yypt-2].list);
-			iota = -100000;
-			lastconst = nil;
 		}
 	case 34:
-		//line go.y:331
+		//line go.y:233
 		{
-			yyVAL.list = nil;
-			iota = -100000;
 		}
 	case 35:
-		//line go.y:336
+		//line go.y:236
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 36:
-		//line go.y:340
+		//line go.y:239
 		{
-			yyVAL.list = yyS[yypt-2].list;
 		}
 	case 37:
-		//line go.y:344
+		//line go.y:242
 		{
-			yyVAL.list = nil;
 		}
 	case 38:
-		//line go.y:350
+		//line go.y:247
 		{
-			iota = 0;
 		}
 	case 39:
-		//line go.y:356
+		//line go.y:252
 		{
-			yyVAL.list = variter(yyS[yypt-1].list, yyS[yypt-0].node, nil);
 		}
 	case 40:
-		//line go.y:360
+		//line go.y:255
 		{
-			yyVAL.list = variter(yyS[yypt-3].list, yyS[yypt-2].node, yyS[yypt-0].list);
 		}
 	case 41:
-		//line go.y:364
+		//line go.y:258
 		{
-			yyVAL.list = variter(yyS[yypt-2].list, nil, yyS[yypt-0].list);
 		}
 	case 42:
-		//line go.y:370
+		//line go.y:263
 		{
-			yyVAL.list = constiter(yyS[yypt-3].list, yyS[yypt-2].node, yyS[yypt-0].list);
 		}
 	case 43:
-		//line go.y:374
+		//line go.y:266
 		{
-			yyVAL.list = constiter(yyS[yypt-2].list, N, yyS[yypt-0].list);
 		}
 	case 44:
 		yyVAL.list = yyS[yypt-0].list
 	case 45:
-		//line go.y:381
+		//line go.y:272
 		{
-			yyVAL.list = constiter(yyS[yypt-1].list, yyS[yypt-0].node, nil);
 		}
 	case 46:
-		//line go.y:385
+		//line go.y:275
 		{
-			yyVAL.list = constiter(yyS[yypt-0].list, N, nil);
 		}
 	case 47:
-		//line go.y:391
+		//line go.y:280
 		{
-			// different from dclname because the name
-		// becomes visible right here, not at the end
-		// of the declaration.
-		yyVAL.node = typedcl0(yyS[yypt-0].sym);
 		}
 	case 48:
-		//line go.y:400
+		//line go.y:285
 		{
-			yyVAL.node = typedcl1(yyS[yypt-1].node, yyS[yypt-0].node, 1);
 		}
 	case 49:
-		//line go.y:406
+		//line go.y:290
 		{
-			yyVAL.node = yyS[yypt-0].node;
-	
-			// These nodes do not carry line numbers.
-		// Since a bare name used as an expression is an error,
-		// introduce a wrapper node to give the correct line.
-		switch(yyVAL.node.op) {
-			case ONAME:
-			case ONONAME:
-			case OTYPE:
-			case OPACK:
-			case OLITERAL:
-				yyVAL.node = nod(OPAREN, yyVAL.node, N);
-				yyVAL.node.implicit = 1;
-				break;
-			}
 		}
 	case 50:
-		//line go.y:424
+		//line go.y:293
 		{
-			yyVAL.node = nod(OASOP, yyS[yypt-2].node, yyS[yypt-0].node);
-			yyVAL.node.etype = yyS[yypt-1].i;			// rathole to pass opcode
-	}
+		}
 	case 51:
-		//line go.y:429
+		//line go.y:296
 		{
-			if(yyS[yypt-2].list.next == nil && yyS[yypt-0].list.next == nil) {
-				// simple
-			yyVAL.node = nod(OAS, yyS[yypt-2].list.n, yyS[yypt-0].list.n);
-				break;
-			}
-			// multiple
-		yyVAL.node = nod(OAS2, N, N);
-			yyVAL.node.list = yyS[yypt-2].list;
-			yyVAL.node.rlist = yyS[yypt-0].list;
 		}
 	case 52:
-		//line go.y:441
+		//line go.y:299
 		{
-			if(yyS[yypt-0].list.n.op == OTYPESW) {
-				yyVAL.node = nod(OTYPESW, N, yyS[yypt-0].list.n.right);
-				if(yyS[yypt-0].list.next != nil)
-					yyerror("expr.(type) must be alone in list");
-				if(yyS[yypt-2].list.next != nil)
-					yyerror("argument count mismatch: %d = %d", count(yyS[yypt-2].list), 1);
-				else if((yyS[yypt-2].list.n.op != ONAME && yyS[yypt-2].list.n.op != OTYPE && yyS[yypt-2].list.n.op != ONONAME) || isblank(yyS[yypt-2].list.n))
-					yyerror("invalid variable name %N in type switch", yyS[yypt-2].list.n);
-				else
-					yyVAL.node.left = dclname(yyS[yypt-2].list.n.sym);  // it's a colas, so must not re-use an oldname.
-			break;
-			}
-			yyVAL.node = colas(yyS[yypt-2].list, yyS[yypt-0].list, yyS[yypt-1].i);
 		}
 	case 53:
-		//line go.y:457
+		//line go.y:302
 		{
-			yyVAL.node = nod(OASOP, yyS[yypt-1].node, nodintconst(1));
-			yyVAL.node.implicit = 1;
-			yyVAL.node.etype = OADD;
 		}
 	case 54:
-		//line go.y:463
+		//line go.y:305
 		{
-			yyVAL.node = nod(OASOP, yyS[yypt-1].node, nodintconst(1));
-			yyVAL.node.implicit = 1;
-			yyVAL.node.etype = OSUB;
 		}
 	case 55:
-		//line go.y:471
+		//line go.y:310
 		{
-			Node *n, *nn;
-	
-			// will be converted to OCASE
-		// right will point to next case
-		// done in casebody()
-		markdcl();
-			yyVAL.node = nod(OXCASE, N, N);
-			yyVAL.node.list = yyS[yypt-1].list;
-			if(typesw != N && typesw.right != N && (n=typesw.right.left) != N) {
-				// type switch - declare variable
-			nn = newname(n.sym);
-				declare(nn, dclcontext);
-				yyVAL.node.nname = nn;
-	
-				// keep track of the instances for reporting unused
-			nn.defn = typesw.right;
-			}
 		}
 	case 56:
-		//line go.y:491
+		//line go.y:313
 		{
-			Node *n;
-	
-			// will be converted to OCASE
-		// right will point to next case
-		// done in casebody()
-		markdcl();
-			yyVAL.node = nod(OXCASE, N, N);
-			if(yyS[yypt-3].list.next == nil)
-				n = nod(OAS, yyS[yypt-3].list.n, yyS[yypt-1].node);
-			else {
-				n = nod(OAS2, N, N);
-				n.list = yyS[yypt-3].list;
-				n.rlist = list1(yyS[yypt-1].node);
-			}
-			yyVAL.node.list = list1(n);
 		}
 	case 57:
-		//line go.y:509
+		//line go.y:316
 		{
-			// will be converted to OCASE
-		// right will point to next case
-		// done in casebody()
-		markdcl();
-			yyVAL.node = nod(OXCASE, N, N);
-			yyVAL.node.list = list1(colas(yyS[yypt-3].list, list1(yyS[yypt-1].node), yyS[yypt-2].i));
 		}
 	case 58:
-		//line go.y:518
+		//line go.y:319
 		{
-			Node *n, *nn;
-	
-			markdcl();
-			yyVAL.node = nod(OXCASE, N, N);
-			if(typesw != N && typesw.right != N && (n=typesw.right.left) != N) {
-				// type switch - declare variable
-			nn = newname(n.sym);
-				declare(nn, dclcontext);
-				yyVAL.node.nname = nn;
-	
-				// keep track of the instances for reporting unused
-			nn.defn = typesw.right;
-			}
 		}
 	case 59:
-		//line go.y:536
+		//line go.y:324
 		{
-			markdcl();
 		}
 	case 60:
-		//line go.y:540
+		//line go.y:327
 		{
-			if(yyS[yypt-1].list == nil)
-				yyVAL.node = nod(OEMPTY, N, N);
-			else
-				yyVAL.node = liststmt(yyS[yypt-1].list);
-			popdcl();
 		}
 	case 61:
-		//line go.y:550
+		//line go.y:332
 		{
-			// If the last token read by the lexer was consumed
-		// as part of the case, clear it (parser has cleared yychar).
-		// If the last token read by the lexer was the lookahead
-		// leave it alone (parser has it cached in yychar).
-		// This is so that the stmt_list action doesn't look at
-		// the case tokens if the stmt_list is empty.
-		yylast = yychar;
-			yyS[yypt-0].node.xoffset = block;
 		}
 	case 62:
-		//line go.y:561
+		//line go.y:335
 		{
-			int last;
-	
-			// This is the only place in the language where a statement
-		// list is not allowed to drop the final semicolon, because
-		// it's the only place where a statement list is not followed 
-		// by a closing brace.  Handle the error for pedantry.
-
-			// Find the final token of the statement list.
-		// yylast is lookahead; yyprev is last of stmt_list
-		last = yyprev;
-	
-			if(last > 0 && last != ';' && yychar != '}')
-				yyerror("missing statement after label");
-			yyVAL.node = yyS[yypt-2].node;
-			yyVAL.node.nbody = yyS[yypt-0].list;
-			popdcl();
 		}
 	case 63:
-		//line go.y:581
+		//line go.y:339
 		{
-			yyVAL.list = nil;
 		}
 	case 64:
-		//line go.y:585
+		//line go.y:342
 		{
-			yyVAL.list = list(yyS[yypt-1].list, yyS[yypt-0].node);
 		}
 	case 65:
-		//line go.y:591
+		//line go.y:347
 		{
-			markdcl();
 		}
 	case 66:
-		//line go.y:595
+		//line go.y:350
 		{
-			yyVAL.list = yyS[yypt-1].list;
-			popdcl();
 		}
 	case 67:
-		//line go.y:602
+		//line go.y:355
 		{
-			yyVAL.node = nod(ORANGE, N, yyS[yypt-0].node);
-			yyVAL.node.list = yyS[yypt-3].list;
-			yyVAL.node.etype = 0;	// := flag
-	}
+		}
 	case 68:
-		//line go.y:608
+		//line go.y:358
 		{
-			yyVAL.node = nod(ORANGE, N, yyS[yypt-0].node);
-			yyVAL.node.list = yyS[yypt-3].list;
-			yyVAL.node.colas = 1;
-			colasdefn(yyS[yypt-3].list, yyVAL.node);
 		}
 	case 69:
-		//line go.y:615
+		//line go.y:361
 		{
-			yyVAL.node = nod(ORANGE, N, yyS[yypt-0].node);
-			yyVAL.node.etype = 0; // := flag
-	}
+		}
 	case 70:
-		//line go.y:622
+		//line go.y:366
 		{
-			// init ; test ; incr
-		if(yyS[yypt-0].node != N && yyS[yypt-0].node.colas != 0)
-				yyerror("cannot declare in the for-increment");
-			yyVAL.node = nod(OFOR, N, N);
-			if(yyS[yypt-4].node != N)
-				yyVAL.node.ninit = list1(yyS[yypt-4].node);
-			yyVAL.node.ntest = yyS[yypt-2].node;
-			yyVAL.node.nincr = yyS[yypt-0].node;
 		}
 	case 71:
-		//line go.y:633
+		//line go.y:369
 		{
-			// normal test
-		yyVAL.node = nod(OFOR, N, N);
-			yyVAL.node.ntest = yyS[yypt-0].node;
 		}
 	case 72:
 		yyVAL.node = yyS[yypt-0].node
 	case 73:
-		//line go.y:642
+		//line go.y:375
 		{
-			yyVAL.node = yyS[yypt-1].node;
-			yyVAL.node.nbody = concat(yyVAL.node.nbody, yyS[yypt-0].list);
 		}
 	case 74:
-		//line go.y:649
+		//line go.y:380
 		{
-			markdcl();
 		}
 	case 75:
-		//line go.y:653
+		//line go.y:383
 		{
-			yyVAL.node = yyS[yypt-0].node;
-			popdcl();
 		}
 	case 76:
-		//line go.y:660
+		//line go.y:388
 		{
-			// test
-		yyVAL.node = nod(OIF, N, N);
-			yyVAL.node.ntest = yyS[yypt-0].node;
 		}
 	case 77:
-		//line go.y:666
+		//line go.y:391
 		{
-			// init ; test
-		yyVAL.node = nod(OIF, N, N);
-			if(yyS[yypt-2].node != N)
-				yyVAL.node.ninit = list1(yyS[yypt-2].node);
-			yyVAL.node.ntest = yyS[yypt-0].node;
 		}
 	case 78:
-		//line go.y:677
+		//line go.y:397
 		{
-			markdcl();
 		}
 	case 79:
-		//line go.y:681
+		//line go.y:400
 		{
-			if(yyS[yypt-0].node.ntest == N)
-				yyerror("missing condition in if statement");
 		}
 	case 80:
-		//line go.y:686
+		//line go.y:403
 		{
-			yyS[yypt-2].node.nbody = yyS[yypt-0].list;
 		}
 	case 81:
-		//line go.y:690
+		//line go.y:406
 		{
-			Node *n;
-			NodeList *nn;
-	
-			yyVAL.node = yyS[yypt-5].node;
-			n = yyS[yypt-5].node;
-			popdcl();
-			for(nn = concat(yyS[yypt-1].list, yyS[yypt-0].list); nn; nn = nn.next) {
-				if(nn.n.op == OIF)
-					popdcl();
-				n.nelse = list1(nn.n);
-				n = nn.n;
-			}
 		}
 	case 82:
-		//line go.y:707
+		//line go.y:411
 		{
-			markdcl();
 		}
 	case 83:
-		//line go.y:711
+		//line go.y:414
 		{
-			if(yyS[yypt-1].node.ntest == N)
-				yyerror("missing condition in if statement");
-			yyS[yypt-1].node.nbody = yyS[yypt-0].list;
-			yyVAL.list = list1(yyS[yypt-1].node);
 		}
 	case 84:
-		//line go.y:719
+		//line go.y:418
 		{
-			yyVAL.list = nil;
 		}
 	case 85:
-		//line go.y:723
+		//line go.y:421
 		{
-			yyVAL.list = concat(yyS[yypt-1].list, yyS[yypt-0].list);
 		}
 	case 86:
-		//line go.y:728
+		//line go.y:425
 		{
-			yyVAL.list = nil;
 		}
 	case 87:
-		//line go.y:732
+		//line go.y:428
 		{
-			NodeList *node;
-			
-			node = mal(sizeof *node);
-			node.n = yyS[yypt-0].node;
-			node.end = node;
-			yyVAL.list = node;
 		}
 	case 88:
-		//line go.y:743
+		//line go.y:433
 		{
-			markdcl();
 		}
 	case 89:
-		//line go.y:747
+		//line go.y:436
 		{
-			Node *n;
-			n = yyS[yypt-0].node.ntest;
-			if(n != N && n.op != OTYPESW)
-				n = N;
-			typesw = nod(OXXX, typesw, n);
 		}
 	case 90:
-		//line go.y:755
+		//line go.y:439
 		{
-			yyVAL.node = yyS[yypt-4].node;
-			yyVAL.node.op = OSWITCH;
-			yyVAL.node.list = yyS[yypt-1].list;
-			typesw = typesw.left;
-			popdcl();
 		}
 	case 91:
-		//line go.y:765
+		//line go.y:444
 		{
-			typesw = nod(OXXX, typesw, N);
 		}
 	case 92:
-		//line go.y:769
+		//line go.y:447
 		{
-			yyVAL.node = nod(OSELECT, N, N);
-			yyVAL.node.lineno = typesw.lineno;
-			yyVAL.node.list = yyS[yypt-1].list;
-			typesw = typesw.left;
 		}
 	case 93:
 		yyVAL.node = yyS[yypt-0].node
 	case 94:
-		//line go.y:782
+		//line go.y:456
 		{
-			yyVAL.node = nod(OOROR, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 95:
-		//line go.y:786
+		//line go.y:459
 		{
-			yyVAL.node = nod(OANDAND, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 96:
-		//line go.y:790
+		//line go.y:462
 		{
-			yyVAL.node = nod(OEQ, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 97:
-		//line go.y:794
+		//line go.y:465
 		{
-			yyVAL.node = nod(ONE, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 98:
-		//line go.y:798
+		//line go.y:468
 		{
-			yyVAL.node = nod(OLT, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 99:
-		//line go.y:802
+		//line go.y:471
 		{
-			yyVAL.node = nod(OLE, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 100:
-		//line go.y:806
+		//line go.y:474
 		{
-			yyVAL.node = nod(OGE, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 101:
-		//line go.y:810
+		//line go.y:477
 		{
-			yyVAL.node = nod(OGT, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 102:
-		//line go.y:814
+		//line go.y:480
 		{
-			yyVAL.node = nod(OADD, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 103:
-		//line go.y:818
+		//line go.y:483
 		{
-			yyVAL.node = nod(OSUB, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 104:
-		//line go.y:822
+		//line go.y:486
 		{
-			yyVAL.node = nod(OOR, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 105:
-		//line go.y:826
+		//line go.y:489
 		{
-			yyVAL.node = nod(OXOR, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 106:
-		//line go.y:830
+		//line go.y:492
 		{
-			yyVAL.node = nod(OMUL, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 107:
-		//line go.y:834
+		//line go.y:495
 		{
-			yyVAL.node = nod(ODIV, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 108:
-		//line go.y:838
+		//line go.y:498
 		{
-			yyVAL.node = nod(OMOD, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 109:
-		//line go.y:842
+		//line go.y:501
 		{
-			yyVAL.node = nod(OAND, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 110:
-		//line go.y:846
+		//line go.y:504
 		{
-			yyVAL.node = nod(OANDNOT, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 111:
-		//line go.y:850
+		//line go.y:507
 		{
-			yyVAL.node = nod(OLSH, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 112:
-		//line go.y:854
+		//line go.y:510
 		{
-			yyVAL.node = nod(ORSH, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 113:
-		//line go.y:859
+		//line go.y:514
 		{
-			yyVAL.node = nod(OSEND, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 114:
 		yyVAL.node = yyS[yypt-0].node
 	case 115:
-		//line go.y:866
+		//line go.y:520
 		{
-			yyVAL.node = nod(OIND, yyS[yypt-0].node, N);
 		}
 	case 116:
-		//line go.y:870
+		//line go.y:523
 		{
-			if(yyS[yypt-0].node.op == OCOMPLIT) {
-				// Special case for &T{...}: turn into (*T){...}.
-			yyVAL.node = yyS[yypt-0].node;
-				yyVAL.node.right = nod(OIND, yyVAL.node.right, N);
-				yyVAL.node.right.implicit = 1;
-			} else {
-				yyVAL.node = nod(OADDR, yyS[yypt-0].node, N);
-			}
 		}
 	case 117:
-		//line go.y:881
+		//line go.y:526
 		{
-			yyVAL.node = nod(OPLUS, yyS[yypt-0].node, N);
 		}
 	case 118:
-		//line go.y:885
+		//line go.y:529
 		{
-			yyVAL.node = nod(OMINUS, yyS[yypt-0].node, N);
 		}
 	case 119:
-		//line go.y:889
+		//line go.y:532
 		{
-			yyVAL.node = nod(ONOT, yyS[yypt-0].node, N);
 		}
 	case 120:
-		//line go.y:893
+		//line go.y:535
 		{
-			yyerror("the bitwise complement operator is ^");
-			yyVAL.node = nod(OCOM, yyS[yypt-0].node, N);
 		}
 	case 121:
-		//line go.y:898
+		//line go.y:538
 		{
-			yyVAL.node = nod(OCOM, yyS[yypt-0].node, N);
 		}
 	case 122:
-		//line go.y:902
+		//line go.y:541
 		{
-			yyVAL.node = nod(ORECV, yyS[yypt-0].node, N);
 		}
 	case 123:
-		//line go.y:912
+		//line go.y:550
 		{
-			yyVAL.node = nod(OCALL, yyS[yypt-2].node, N);
 		}
 	case 124:
-		//line go.y:916
+		//line go.y:553
 		{
-			yyVAL.node = nod(OCALL, yyS[yypt-4].node, N);
-			yyVAL.node.list = yyS[yypt-2].list;
 		}
 	case 125:
-		//line go.y:921
+		//line go.y:556
 		{
-			yyVAL.node = nod(OCALL, yyS[yypt-5].node, N);
-			yyVAL.node.list = yyS[yypt-3].list;
-			yyVAL.node.isddd = 1;
 		}
 	case 126:
-		//line go.y:929
+		//line go.y:561
 		{
-			yyVAL.node = nodlit(yyS[yypt-0].val);
 		}
 	case 127:
 		yyVAL.node = yyS[yypt-0].node
 	case 128:
-		//line go.y:934
+		//line go.y:565
 		{
-			if(yyS[yypt-2].node.op == OPACK) {
-				Sym *s;
-				s = restrictlookup(yyS[yypt-0].sym.name, yyS[yypt-2].node.pkg);
-				yyS[yypt-2].node.used = 1;
-				yyVAL.node = oldname(s);
-				break;
-			}
-			yyVAL.node = nod(OXDOT, yyS[yypt-2].node, newname(yyS[yypt-0].sym));
 		}
 	case 129:
-		//line go.y:945
+		//line go.y:568
 		{
-			yyVAL.node = nod(ODOTTYPE, yyS[yypt-4].node, yyS[yypt-1].node);
 		}
 	case 130:
-		//line go.y:949
+		//line go.y:571
 		{
-			yyVAL.node = nod(OTYPESW, N, yyS[yypt-4].node);
 		}
 	case 131:
-		//line go.y:953
+		//line go.y:574
 		{
-			yyVAL.node = nod(OINDEX, yyS[yypt-3].node, yyS[yypt-1].node);
 		}
 	case 132:
-		//line go.y:957
+		//line go.y:577
 		{
-			yyVAL.node = nod(OSLICE, yyS[yypt-5].node, nod(OKEY, yyS[yypt-3].node, yyS[yypt-1].node));
 		}
 	case 133:
-		//line go.y:961
+		//line go.y:580
 		{
-			if(yyS[yypt-3].node == N)
-				yyerror("middle index required in 3-index slice");
-			if(yyS[yypt-1].node == N)
-				yyerror("final index required in 3-index slice");
-			yyVAL.node = nod(OSLICE3, yyS[yypt-7].node, nod(OKEY, yyS[yypt-5].node, nod(OKEY, yyS[yypt-3].node, yyS[yypt-1].node)));
 		}
 	case 134:
 		yyVAL.node = yyS[yypt-0].node
 	case 135:
-		//line go.y:970
+		//line go.y:584
 		{
-			// conversion
-		yyVAL.node = nod(OCALL, yyS[yypt-4].node, N);
-			yyVAL.node.list = list1(yyS[yypt-2].node);
 		}
 	case 136:
-		//line go.y:976
+		//line go.y:587
 		{
-			yyVAL.node = yyS[yypt-2].node;
-			yyVAL.node.right = yyS[yypt-4].node;
-			yyVAL.node.list = yyS[yypt-1].list;
-			fixlbrace(yyS[yypt-3].i);
 		}
 	case 137:
-		//line go.y:983
+		//line go.y:590
 		{
-			yyVAL.node = yyS[yypt-2].node;
-			yyVAL.node.right = yyS[yypt-4].node;
-			yyVAL.node.list = yyS[yypt-1].list;
 		}
 	case 138:
-		//line go.y:989
+		//line go.y:593
 		{
-			yyerror("cannot parenthesize type in composite literal");
-			yyVAL.node = yyS[yypt-2].node;
-			yyVAL.node.right = yyS[yypt-5].node;
-			yyVAL.node.list = yyS[yypt-1].list;
 		}
 	case 139:
 		yyVAL.node = yyS[yypt-0].node
 	case 140:
-		//line go.y:998
+		//line go.y:598
 		{
-			// composite expression.
-		// make node early so we get the right line number.
-		yyVAL.node = nod(OCOMPLIT, N, N);
 		}
 	case 141:
-		//line go.y:1006
+		//line go.y:603
 		{
-			yyVAL.node = nod(OKEY, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 142:
-		//line go.y:1012
+		//line go.y:608
 		{
-			// These nodes do not carry line numbers.
-		// Since a composite literal commonly spans several lines,
-		// the line number on errors may be misleading.
-		// Introduce a wrapper node to give the correct line.
-		yyVAL.node = yyS[yypt-0].node;
-			switch(yyVAL.node.op) {
-			case ONAME:
-			case ONONAME:
-			case OTYPE:
-			case OPACK:
-			case OLITERAL:
-				yyVAL.node = nod(OPAREN, yyVAL.node, N);
-				yyVAL.node.implicit = 1;
-			}
 		}
 	case 143:
-		//line go.y:1029
+		//line go.y:611
 		{
-			yyVAL.node = yyS[yypt-2].node;
-			yyVAL.node.list = yyS[yypt-1].list;
 		}
 	case 144:
 		yyVAL.node = yyS[yypt-0].node
 	case 145:
-		//line go.y:1037
+		//line go.y:617
 		{
-			yyVAL.node = yyS[yypt-2].node;
-			yyVAL.node.list = yyS[yypt-1].list;
 		}
 	case 146:
 		yyVAL.node = yyS[yypt-0].node
 	case 147:
-		//line go.y:1045
+		//line go.y:623
 		{
-			yyVAL.node = yyS[yypt-1].node;
-			
-			// Need to know on lhs of := whether there are ( ).
-		// Don't bother with the OPAREN in other cases:
-		// it's just a waste of memory and time.
-		switch(yyVAL.node.op) {
-			case ONAME:
-			case ONONAME:
-			case OPACK:
-			case OTYPE:
-			case OLITERAL:
-			case OTYPESW:
-				yyVAL.node = nod(OPAREN, yyVAL.node, N);
-			}
 		}
 	case 148:
 		yyVAL.node = yyS[yypt-0].node
@@ -2045,102 +1609,62 @@ yydefault:
 	case 150:
 		yyVAL.node = yyS[yypt-0].node
 	case 151:
-		//line go.y:1071
+		//line go.y:635
 		{
-			yyVAL.i = LBODY;
 		}
 	case 152:
-		//line go.y:1075
+		//line go.y:638
 		{
-			yyVAL.i = '{';
 		}
 	case 153:
-		//line go.y:1086
+		//line go.y:648
 		{
-			if(yyS[yypt-0].sym == S)
-				yyVAL.node = N;
-			else
-				yyVAL.node = newname(yyS[yypt-0].sym);
 		}
 	case 154:
-		//line go.y:1095
+		//line go.y:653
 		{
-			yyVAL.node = dclname(yyS[yypt-0].sym);
 		}
 	case 155:
-		//line go.y:1100
+		//line go.y:657
 		{
-			yyVAL.node = N;
 		}
 	case 156:
 		yyVAL.node = yyS[yypt-0].node
 	case 157:
-		//line go.y:1107
+		//line go.y:663
 		{
-			yyVAL.sym = yyS[yypt-0].sym;
-			// during imports, unqualified non-exported identifiers are from builtinpkg
-		if(importpkg != nil && !exportname(yyS[yypt-0].sym.name))
-				yyVAL.sym = pkglookup(yyS[yypt-0].sym.name, builtinpkg);
 		}
 	case 158:
 		yyVAL.sym = yyS[yypt-0].sym
 	case 159:
-		//line go.y:1115
+		//line go.y:667
 		{
-			yyVAL.sym = S;
 		}
 	case 160:
-		//line go.y:1121
+		//line go.y:672
 		{
-			Pkg *p;
-	
-			if(yyS[yypt-2].val.u.sval.len == 0)
-				p = importpkg;
-			else {
-				if(isbadimport(yyS[yypt-2].val.u.sval))
-					errorexit();
-				p = mkpkg(yyS[yypt-2].val.u.sval);
-			}
-			yyVAL.sym = pkglookup(yyS[yypt-0].sym.name, p);
 		}
 	case 161:
-		//line go.y:1134
+		//line go.y:675
 		{
-			Pkg *p;
-	
-			if(yyS[yypt-2].val.u.sval.len == 0)
-				p = importpkg;
-			else {
-				if(isbadimport(yyS[yypt-2].val.u.sval))
-					errorexit();
-				p = mkpkg(yyS[yypt-2].val.u.sval);
-			}
-			yyVAL.sym = pkglookup("?", p);
 		}
 	case 162:
-		//line go.y:1149
+		//line go.y:680
 		{
-			yyVAL.node = oldname(yyS[yypt-0].sym);
-			if(yyVAL.node.pack != N)
-				yyVAL.node.pack.used = 1;
 		}
 	case 163:
 		yyVAL.node = yyS[yypt-0].node
 	case 164:
-		//line go.y:1169
+		//line go.y:697
 		{
-			yyerror("final argument in variadic function missing type");
-			yyVAL.node = nod(ODDD, typenod(typ(TINTER)), N);
 		}
 	case 165:
-		//line go.y:1174
+		//line go.y:700
 		{
-			yyVAL.node = nod(ODDD, yyS[yypt-0].node, N);
 		}
 	case 166:
-		//line go.y:1180
+		//line go.y:705
 		{
-			yyVAL.node = N;
 		}
 	case 167:
 		yyVAL.node = yyS[yypt-0].node
@@ -2155,9 +1679,8 @@ yydefault:
 	case 172:
 		yyVAL.node = yyS[yypt-0].node
 	case 173:
-		//line go.y:1192
+		//line go.y:716
 		{
-			yyVAL.node = yyS[yypt-1].node;
 		}
 	case 174:
 		yyVAL.node = yyS[yypt-0].node
@@ -2166,9 +1689,8 @@ yydefault:
 	case 176:
 		yyVAL.node = yyS[yypt-0].node
 	case 177:
-		//line go.y:1201
+		//line go.y:724
 		{
-			yyVAL.node = nod(OIND, yyS[yypt-0].node, N);
 		}
 	case 178:
 		yyVAL.node = yyS[yypt-0].node
@@ -2179,9 +1701,8 @@ yydefault:
 	case 181:
 		yyVAL.node = yyS[yypt-0].node
 	case 182:
-		//line go.y:1211
+		//line go.y:733
 		{
-			yyVAL.node = yyS[yypt-1].node;
 		}
 	case 183:
 		yyVAL.node = yyS[yypt-0].node
@@ -2202,491 +1723,250 @@ yydefault:
 	case 191:
 		yyVAL.node = yyS[yypt-0].node
 	case 192:
-		//line go.y:1232
+		//line go.y:753
 		{
-			if(yyS[yypt-2].node.op == OPACK) {
-				Sym *s;
-				s = restrictlookup(yyS[yypt-0].sym.name, yyS[yypt-2].node.pkg);
-				yyS[yypt-2].node.used = 1;
-				yyVAL.node = oldname(s);
-				break;
-			}
-			yyVAL.node = nod(OXDOT, yyS[yypt-2].node, newname(yyS[yypt-0].sym));
 		}
 	case 193:
-		//line go.y:1245
+		//line go.y:758
 		{
-			yyVAL.node = nod(OTARRAY, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 194:
-		//line go.y:1249
+		//line go.y:761
 		{
-			// array literal of nelem
-		yyVAL.node = nod(OTARRAY, nod(ODDD, N, N), yyS[yypt-0].node);
 		}
 	case 195:
-		//line go.y:1254
+		//line go.y:764
 		{
-			yyVAL.node = nod(OTCHAN, yyS[yypt-0].node, N);
-			yyVAL.node.etype = Cboth;
 		}
 	case 196:
-		//line go.y:1259
+		//line go.y:767
 		{
-			yyVAL.node = nod(OTCHAN, yyS[yypt-0].node, N);
-			yyVAL.node.etype = Csend;
 		}
 	case 197:
-		//line go.y:1264
+		//line go.y:770
 		{
-			yyVAL.node = nod(OTMAP, yyS[yypt-2].node, yyS[yypt-0].node);
 		}
 	case 198:
 		yyVAL.node = yyS[yypt-0].node
 	case 199:
 		yyVAL.node = yyS[yypt-0].node
 	case 200:
-		//line go.y:1272
+		//line go.y:777
 		{
-			yyVAL.node = nod(OIND, yyS[yypt-0].node, N);
 		}
 	case 201:
-		//line go.y:1278
+		//line go.y:782
 		{
-			yyVAL.node = nod(OTCHAN, yyS[yypt-0].node, N);
-			yyVAL.node.etype = Crecv;
 		}
 	case 202:
-		//line go.y:1285
+		//line go.y:787
 		{
-			yyVAL.node = nod(OTSTRUCT, N, N);
-			yyVAL.node.list = yyS[yypt-2].list;
-			fixlbrace(yyS[yypt-3].i);
 		}
 	case 203:
-		//line go.y:1291
+		//line go.y:790
 		{
-			yyVAL.node = nod(OTSTRUCT, N, N);
-			fixlbrace(yyS[yypt-1].i);
 		}
 	case 204:
-		//line go.y:1298
+		//line go.y:795
 		{
-			yyVAL.node = nod(OTINTER, N, N);
-			yyVAL.node.list = yyS[yypt-2].list;
-			fixlbrace(yyS[yypt-3].i);
 		}
 	case 205:
-		//line go.y:1304
+		//line go.y:798
 		{
-			yyVAL.node = nod(OTINTER, N, N);
-			fixlbrace(yyS[yypt-1].i);
 		}
 	case 206:
-		//line go.y:1315
+		//line go.y:807
 		{
-			yyVAL.node = yyS[yypt-1].node;
-			if(yyVAL.node == N)
-				break;
-			if(noescape && yyS[yypt-0].list != nil)
-				yyerror("can only use //go:noescape with external func implementations");
-			yyVAL.node.nbody = yyS[yypt-0].list;
-			yyVAL.node.endlineno = lineno;
-			yyVAL.node.noescape = noescape;
-			yyVAL.node.nosplit = nosplit;
-			yyVAL.node.nowritebarrier = nowritebarrier;
-			funcbody(yyVAL.node);
 		}
 	case 207:
-		//line go.y:1331
+		//line go.y:812
 		{
-			Node *t;
-	
-			yyVAL.node = N;
-			yyS[yypt-2].list = checkarglist(yyS[yypt-2].list, 1);
-	
-			if(strcmp(yyS[yypt-4].sym.name, "init") == 0) {
-				yyS[yypt-4].sym = renameinit();
-				if(yyS[yypt-2].list != nil || yyS[yypt-0].list != nil)
-					yyerror("func init must have no arguments and no return values");
-			}
-			if(strcmp(localpkg.name, "main") == 0 && strcmp(yyS[yypt-4].sym.name, "main") == 0) {
-				if(yyS[yypt-2].list != nil || yyS[yypt-0].list != nil)
-					yyerror("func main must have no arguments and no return values");
-			}
-	
-			t = nod(OTFUNC, N, N);
-			t.list = yyS[yypt-2].list;
-			t.rlist = yyS[yypt-0].list;
-	
-			yyVAL.node = nod(ODCLFUNC, N, N);
-			yyVAL.node.nname = newname(yyS[yypt-4].sym);
-			yyVAL.node.nname.defn = yyVAL.node;
-			yyVAL.node.nname.ntype = t;		// TODO: check if nname already has an ntype
-		declare(yyVAL.node.nname, PFUNC);
-	
-			funchdr(yyVAL.node);
 		}
 	case 208:
-		//line go.y:1360
+		//line go.y:815
 		{
-			Node *rcvr, *t;
-	
-			yyVAL.node = N;
-			yyS[yypt-6].list = checkarglist(yyS[yypt-6].list, 0);
-			yyS[yypt-2].list = checkarglist(yyS[yypt-2].list, 1);
-	
-			if(yyS[yypt-6].list == nil) {
-				yyerror("method has no receiver");
-				break;
-			}
-			if(yyS[yypt-6].list.next != nil) {
-				yyerror("method has multiple receivers");
-				break;
-			}
-			rcvr = yyS[yypt-6].list.n;
-			if(rcvr.op != ODCLFIELD) {
-				yyerror("bad receiver in method");
-				break;
-			}
-	
-			t = nod(OTFUNC, rcvr, N);
-			t.list = yyS[yypt-2].list;
-			t.rlist = yyS[yypt-0].list;
-	
-			yyVAL.node = nod(ODCLFUNC, N, N);
-			yyVAL.node.shortname = newname(yyS[yypt-4].sym);
-			yyVAL.node.nname = methodname1(yyVAL.node.shortname, rcvr.right);
-			yyVAL.node.nname.defn = yyVAL.node;
-			yyVAL.node.nname.ntype = t;
-			yyVAL.node.nname.nointerface = nointerface;
-			declare(yyVAL.node.nname, PFUNC);
-	
-			funchdr(yyVAL.node);
 		}
 	case 209:
-		//line go.y:1398
+		//line go.y:820
 		{
-			Sym *s;
-			Type *t;
-	
-			yyVAL.node = N;
-	
-			s = yyS[yypt-4].sym;
-			t = functype(N, yyS[yypt-2].list, yyS[yypt-0].list);
-	
-			importsym(s, ONAME);
-			if(s.def != N && s.def.op == ONAME) {
-				if(eqtype(t, s.def.type)) {
-					dclcontext = PDISCARD;  // since we skip funchdr below
-				break;
-				}
-				yyerror("inconsistent definition for func %S during import\n\t%T\n\t%T", s, s.def.type, t);
-			}
-	
-			yyVAL.node = newname(s);
-			yyVAL.node.type = t;
-			declare(yyVAL.node, PFUNC);
-	
-			funchdr(yyVAL.node);
 		}
 	case 210:
-		//line go.y:1423
+		//line go.y:823
 		{
-			yyVAL.node = methodname1(newname(yyS[yypt-4].sym), yyS[yypt-6].list.n.right); 
-			yyVAL.node.type = functype(yyS[yypt-6].list.n, yyS[yypt-2].list, yyS[yypt-0].list);
-	
-			checkwidth(yyVAL.node.type);
-			addmethod(yyS[yypt-4].sym, yyVAL.node.type, 0, nointerface);
-			nointerface = 0;
-			funchdr(yyVAL.node);
-			
-			// inl.c's inlnode in on a dotmeth node expects to find the inlineable body as
-		// (dotmeth's type).nname.inl, and dotmeth's type has been pulled
-		// out by typecheck's lookdot as this $$.ttype.  So by providing
-		// this back link here we avoid special casing there.
-		yyVAL.node.type.nname = yyVAL.node;
 		}
 	case 211:
-		//line go.y:1441
+		//line go.y:828
 		{
-			yyS[yypt-2].list = checkarglist(yyS[yypt-2].list, 1);
-			yyVAL.node = nod(OTFUNC, N, N);
-			yyVAL.node.list = yyS[yypt-2].list;
-			yyVAL.node.rlist = yyS[yypt-0].list;
 		}
 	case 212:
-		//line go.y:1449
+		//line go.y:832
 		{
-			yyVAL.list = nil;
 		}
 	case 213:
-		//line go.y:1453
+		//line go.y:835
 		{
-			yyVAL.list = yyS[yypt-1].list;
-			if(yyVAL.list == nil)
-				yyVAL.list = list1(nod(OEMPTY, N, N));
 		}
 	case 214:
-		//line go.y:1461
+		//line go.y:840
 		{
-			yyVAL.list = nil;
 		}
 	case 215:
-		//line go.y:1465
+		//line go.y:843
 		{
-			yyVAL.list = list1(nod(ODCLFIELD, N, yyS[yypt-0].node));
 		}
 	case 216:
-		//line go.y:1469
+		//line go.y:846
 		{
-			yyS[yypt-1].list = checkarglist(yyS[yypt-1].list, 0);
-			yyVAL.list = yyS[yypt-1].list;
 		}
 	case 217:
-		//line go.y:1476
+		//line go.y:851
 		{
-			closurehdr(yyS[yypt-0].node);
 		}
 	case 218:
-		//line go.y:1482
+		//line go.y:856
 		{
-			yyVAL.node = closurebody(yyS[yypt-1].list);
-			fixlbrace(yyS[yypt-2].i);
 		}
 	case 219:
-		//line go.y:1487
+		//line go.y:859
 		{
-			yyVAL.node = closurebody(nil);
 		}
 	case 220:
-		//line go.y:1498
+		//line go.y:869
 		{
-			yyVAL.list = nil;
 		}
 	case 221:
-		//line go.y:1502
+		//line go.y:872
 		{
-			yyVAL.list = concat(yyS[yypt-2].list, yyS[yypt-1].list);
-			if(nsyntaxerrors == 0)
-				testdclstack();
-			nointerface = 0;
-			noescape = 0;
-			nosplit = 0;
-			nowritebarrier = 0;
 		}
 	case 222:
 		yyVAL.list = yyS[yypt-0].list
 	case 223:
-		//line go.y:1515
+		//line go.y:878
 		{
-			yyVAL.list = concat(yyS[yypt-2].list, yyS[yypt-0].list);
 		}
 	case 224:
 		yyVAL.list = yyS[yypt-0].list
 	case 225:
-		//line go.y:1522
+		//line go.y:884
 		{
-			yyVAL.list = concat(yyS[yypt-2].list, yyS[yypt-0].list);
 		}
 	case 226:
-		//line go.y:1528
+		//line go.y:889
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 227:
-		//line go.y:1532
+		//line go.y:892
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 228:
 		yyVAL.list = yyS[yypt-0].list
 	case 229:
-		//line go.y:1539
+		//line go.y:898
 		{
-			yyVAL.list = concat(yyS[yypt-2].list, yyS[yypt-0].list);
 		}
 	case 230:
-		//line go.y:1545
+		//line go.y:903
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 231:
-		//line go.y:1549
+		//line go.y:906
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 232:
-		//line go.y:1555
+		//line go.y:911
 		{
-			NodeList *l;
-	
-			Node *n;
-			l = yyS[yypt-2].list;
-			if(l == nil) {
-				// ? symbol, during import (list1(N) == nil)
-			n = yyS[yypt-1].node;
-				if(n.op == OIND)
-					n = n.left;
-				n = embedded(n.sym, importpkg);
-				n.right = yyS[yypt-1].node;
-				n.val = yyS[yypt-0].val;
-				yyVAL.list = list1(n);
-				break;
-			}
-	
-			for(l=yyS[yypt-2].list; l; l=l.next) {
-				l.n = nod(ODCLFIELD, l.n, yyS[yypt-1].node);
-				l.n.val = yyS[yypt-0].val;
-			}
 		}
 	case 233:
-		//line go.y:1578
+		//line go.y:914
 		{
-			yyS[yypt-1].node.val = yyS[yypt-0].val;
-			yyVAL.list = list1(yyS[yypt-1].node);
 		}
 	case 234:
-		//line go.y:1583
+		//line go.y:917
 		{
-			yyS[yypt-2].node.val = yyS[yypt-0].val;
-			yyVAL.list = list1(yyS[yypt-2].node);
-			yyerror("cannot parenthesize embedded type");
 		}
 	case 235:
-		//line go.y:1589
+		//line go.y:920
 		{
-			yyS[yypt-1].node.right = nod(OIND, yyS[yypt-1].node.right, N);
-			yyS[yypt-1].node.val = yyS[yypt-0].val;
-			yyVAL.list = list1(yyS[yypt-1].node);
 		}
 	case 236:
-		//line go.y:1595
+		//line go.y:923
 		{
-			yyS[yypt-2].node.right = nod(OIND, yyS[yypt-2].node.right, N);
-			yyS[yypt-2].node.val = yyS[yypt-0].val;
-			yyVAL.list = list1(yyS[yypt-2].node);
-			yyerror("cannot parenthesize embedded type");
 		}
 	case 237:
-		//line go.y:1602
+		//line go.y:926
 		{
-			yyS[yypt-2].node.right = nod(OIND, yyS[yypt-2].node.right, N);
-			yyS[yypt-2].node.val = yyS[yypt-0].val;
-			yyVAL.list = list1(yyS[yypt-2].node);
-			yyerror("cannot parenthesize embedded type");
 		}
 	case 238:
-		//line go.y:1611
+		//line go.y:931
 		{
-			Node *n;
-	
-			yyVAL.sym = yyS[yypt-0].sym;
-			n = oldname(yyS[yypt-0].sym);
-			if(n.pack != N)
-				n.pack.used = 1;
 		}
 	case 239:
-		//line go.y:1620
+		//line go.y:934
 		{
-			Pkg *pkg;
-	
-			if(yyS[yypt-2].sym.def == N || yyS[yypt-2].sym.def.op != OPACK) {
-				yyerror("%S is not a package", yyS[yypt-2].sym);
-				pkg = localpkg;
-			} else {
-				yyS[yypt-2].sym.def.used = 1;
-				pkg = yyS[yypt-2].sym.def.pkg;
-			}
-			yyVAL.sym = restrictlookup(yyS[yypt-0].sym.name, pkg);
 		}
 	case 240:
-		//line go.y:1635
+		//line go.y:939
 		{
-			yyVAL.node = embedded(yyS[yypt-0].sym, localpkg);
 		}
 	case 241:
-		//line go.y:1641
+		//line go.y:944
 		{
-			yyVAL.node = nod(ODCLFIELD, yyS[yypt-1].node, yyS[yypt-0].node);
-			ifacedcl(yyVAL.node);
 		}
 	case 242:
-		//line go.y:1646
+		//line go.y:947
 		{
-			yyVAL.node = nod(ODCLFIELD, N, oldname(yyS[yypt-0].sym));
 		}
 	case 243:
-		//line go.y:1650
+		//line go.y:950
 		{
-			yyVAL.node = nod(ODCLFIELD, N, oldname(yyS[yypt-1].sym));
-			yyerror("cannot parenthesize embedded type");
 		}
 	case 244:
-		//line go.y:1657
+		//line go.y:955
 		{
-			// without func keyword
-		yyS[yypt-2].list = checkarglist(yyS[yypt-2].list, 1);
-			yyVAL.node = nod(OTFUNC, fakethis(), N);
-			yyVAL.node.list = yyS[yypt-2].list;
-			yyVAL.node.rlist = yyS[yypt-0].list;
 		}
 	case 245:
 		yyVAL.node = yyS[yypt-0].node
 	case 246:
-		//line go.y:1671
+		//line go.y:964
 		{
-			yyVAL.node = nod(ONONAME, N, N);
-			yyVAL.node.sym = yyS[yypt-1].sym;
-			yyVAL.node = nod(OKEY, yyVAL.node, yyS[yypt-0].node);
 		}
 	case 247:
-		//line go.y:1677
+		//line go.y:967
 		{
-			yyVAL.node = nod(ONONAME, N, N);
-			yyVAL.node.sym = yyS[yypt-1].sym;
-			yyVAL.node = nod(OKEY, yyVAL.node, yyS[yypt-0].node);
 		}
 	case 248:
 		yyVAL.node = yyS[yypt-0].node
 	case 249:
-		//line go.y:1686
+		//line go.y:973
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 250:
-		//line go.y:1690
+		//line go.y:976
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 251:
-		//line go.y:1695
+		//line go.y:980
 		{
-			yyVAL.list = nil;
 		}
 	case 252:
-		//line go.y:1699
+		//line go.y:983
 		{
-			yyVAL.list = yyS[yypt-1].list;
 		}
 	case 253:
-		//line go.y:1707
+		//line go.y:990
 		{
-			yyVAL.node = N;
 		}
 	case 254:
 		yyVAL.node = yyS[yypt-0].node
 	case 255:
-		//line go.y:1712
+		//line go.y:994
 		{
-			yyVAL.node = liststmt(yyS[yypt-0].list);
 		}
 	case 256:
 		yyVAL.node = yyS[yypt-0].node
 	case 257:
-		//line go.y:1717
+		//line go.y:998
 		{
-			yyVAL.node = N;
 		}
 	case 258:
 		yyVAL.node = yyS[yypt-0].node
@@ -2699,261 +1979,178 @@ yydefault:
 	case 262:
 		yyVAL.node = yyS[yypt-0].node
 	case 263:
-		//line go.y:1728
+		//line go.y:1008
 		{
-			yyS[yypt-1].node = nod(OLABEL, yyS[yypt-1].node, N);
-			yyS[yypt-1].node.sym = dclstack;  // context, for goto restrictions
-	}
+		}
 	case 264:
-		//line go.y:1733
+		//line go.y:1011
 		{
-			NodeList *l;
-	
-			yyS[yypt-3].node.defn = yyS[yypt-0].node;
-			l = list1(yyS[yypt-3].node);
-			if(yyS[yypt-0].node)
-				l = list(l, yyS[yypt-0].node);
-			yyVAL.node = liststmt(l);
 		}
 	case 265:
-		//line go.y:1743
+		//line go.y:1014
 		{
-			// will be converted to OFALL
-		yyVAL.node = nod(OXFALL, N, N);
-			yyVAL.node.xoffset = block;
 		}
 	case 266:
-		//line go.y:1749
+		//line go.y:1017
 		{
-			yyVAL.node = nod(OBREAK, yyS[yypt-0].node, N);
 		}
 	case 267:
-		//line go.y:1753
+		//line go.y:1020
 		{
-			yyVAL.node = nod(OCONTINUE, yyS[yypt-0].node, N);
 		}
 	case 268:
-		//line go.y:1757
+		//line go.y:1023
 		{
-			yyVAL.node = nod(OPROC, yyS[yypt-0].node, N);
 		}
 	case 269:
-		//line go.y:1761
+		//line go.y:1026
 		{
-			yyVAL.node = nod(ODEFER, yyS[yypt-0].node, N);
 		}
 	case 270:
-		//line go.y:1765
+		//line go.y:1029
 		{
-			yyVAL.node = nod(OGOTO, yyS[yypt-0].node, N);
-			yyVAL.node.sym = dclstack;  // context, for goto restrictions
-	}
+		}
 	case 271:
-		//line go.y:1770
+		//line go.y:1032
 		{
-			yyVAL.node = nod(ORETURN, N, N);
-			yyVAL.node.list = yyS[yypt-0].list;
-			if(yyVAL.node.list == nil && curfn != N) {
-				NodeList *l;
-	
-				for(l=curfn.dcl; l; l=l.next) {
-					if(l.n.class == PPARAM)
-						continue;
-					if(l.n.class != PPARAMOUT)
-						break;
-					if(l.n.sym.def != l.n)
-						yyerror("%s is shadowed during return", l.n.sym.name);
-				}
-			}
 		}
 	case 272:
-		//line go.y:1789
+		//line go.y:1037
 		{
-			yyVAL.list = nil;
-			if(yyS[yypt-0].node != N)
-				yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 273:
-		//line go.y:1795
+		//line go.y:1040
 		{
-			yyVAL.list = yyS[yypt-2].list;
-			if(yyS[yypt-0].node != N)
-				yyVAL.list = list(yyVAL.list, yyS[yypt-0].node);
 		}
 	case 274:
-		//line go.y:1803
+		//line go.y:1045
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 275:
-		//line go.y:1807
+		//line go.y:1048
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 276:
-		//line go.y:1813
+		//line go.y:1053
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 277:
-		//line go.y:1817
+		//line go.y:1056
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 278:
-		//line go.y:1823
+		//line go.y:1061
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 279:
-		//line go.y:1827
+		//line go.y:1064
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 280:
-		//line go.y:1833
+		//line go.y:1069
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 281:
-		//line go.y:1837
+		//line go.y:1072
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 282:
-		//line go.y:1846
+		//line go.y:1080
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 283:
-		//line go.y:1850
+		//line go.y:1083
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 284:
-		//line go.y:1854
+		//line go.y:1086
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 285:
-		//line go.y:1858
+		//line go.y:1089
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 286:
-		//line go.y:1863
+		//line go.y:1093
 		{
-			yyVAL.list = nil;
 		}
 	case 287:
-		//line go.y:1867
+		//line go.y:1096
 		{
-			yyVAL.list = yyS[yypt-1].list;
 		}
 	case 292:
-		//line go.y:1881
+		//line go.y:1109
 		{
-			yyVAL.node = N;
 		}
 	case 293:
 		yyVAL.node = yyS[yypt-0].node
 	case 294:
-		//line go.y:1887
+		//line go.y:1114
 		{
-			yyVAL.list = nil;
 		}
 	case 295:
 		yyVAL.list = yyS[yypt-0].list
 	case 296:
-		//line go.y:1893
+		//line go.y:1119
 		{
-			yyVAL.node = N;
 		}
 	case 297:
 		yyVAL.node = yyS[yypt-0].node
 	case 298:
-		//line go.y:1899
+		//line go.y:1124
 		{
-			yyVAL.list = nil;
 		}
 	case 299:
 		yyVAL.list = yyS[yypt-0].list
 	case 300:
-		//line go.y:1905
+		//line go.y:1129
 		{
-			yyVAL.list = nil;
 		}
 	case 301:
 		yyVAL.list = yyS[yypt-0].list
 	case 302:
-		//line go.y:1911
+		//line go.y:1134
 		{
-			yyVAL.list = nil;
 		}
 	case 303:
 		yyVAL.list = yyS[yypt-0].list
 	case 304:
-		//line go.y:1917
+		//line go.y:1139
 		{
-			yyVAL.val.ctype = CTxxx;
 		}
 	case 305:
 		yyVAL.val = yyS[yypt-0].val
 	case 306:
-		//line go.y:1927
+		//line go.y:1148
 		{
-			importimport(yyS[yypt-2].sym, yyS[yypt-1].val.u.sval);
 		}
 	case 307:
-		//line go.y:1931
+		//line go.y:1151
 		{
-			importvar(yyS[yypt-2].sym, yyS[yypt-1].type);
 		}
 	case 308:
-		//line go.y:1935
+		//line go.y:1154
 		{
-			importconst(yyS[yypt-3].sym, types[TIDEAL], yyS[yypt-1].node);
 		}
 	case 309:
-		//line go.y:1939
+		//line go.y:1157
 		{
-			importconst(yyS[yypt-4].sym, yyS[yypt-3].type, yyS[yypt-1].node);
 		}
 	case 310:
-		//line go.y:1943
+		//line go.y:1160
 		{
-			importtype(yyS[yypt-2].type, yyS[yypt-1].type);
 		}
 	case 311:
-		//line go.y:1947
+		//line go.y:1163
 		{
-			if(yyS[yypt-2].node == N) {
-				dclcontext = PEXTERN;  // since we skip the funcbody below
-			break;
-			}
-	
-			yyS[yypt-2].node.inl = yyS[yypt-1].list;
-	
-			funcbody(yyS[yypt-2].node);
-			importlist = list(importlist, yyS[yypt-2].node);
-	
-			if(debug['E']) {
-				print("import [%Z] func %lN \n", importpkg.path, yyS[yypt-2].node);
-				if(debug['m'] > 2 && yyS[yypt-2].node.inl)
-					print("inl body:%+H\n", yyS[yypt-2].node.inl);
-			}
 		}
 	case 312:
-		//line go.y:1967
+		//line go.y:1168
 		{
-			yyVAL.sym = yyS[yypt-0].sym;
-			structpkg = yyVAL.sym.pkg;
 		}
 	case 313:
-		//line go.y:1974
+		//line go.y:1173
 		{
-			yyVAL.type = pkgtype(yyS[yypt-0].sym);
-			importsym(yyS[yypt-0].sym, OTYPE);
 		}
 	case 314:
 		yyVAL.type = yyS[yypt-0].type
@@ -2966,230 +2163,132 @@ yydefault:
 	case 318:
 		yyVAL.type = yyS[yypt-0].type
 	case 319:
-		//line go.y:1994
+		//line go.y:1191
 		{
-			yyVAL.type = pkgtype(yyS[yypt-0].sym);
 		}
 	case 320:
-		//line go.y:1998
+		//line go.y:1194
 		{
-			// predefined name like uint8
-		yyS[yypt-0].sym = pkglookup(yyS[yypt-0].sym.name, builtinpkg);
-			if(yyS[yypt-0].sym.def == N || yyS[yypt-0].sym.def.op != OTYPE) {
-				yyerror("%s is not a type", yyS[yypt-0].sym.name);
-				yyVAL.type = T;
-			} else
-				yyVAL.type = yyS[yypt-0].sym.def.type;
 		}
 	case 321:
-		//line go.y:2008
+		//line go.y:1197
 		{
-			yyVAL.type = aindex(N, yyS[yypt-0].type);
 		}
 	case 322:
-		//line go.y:2012
+		//line go.y:1200
 		{
-			yyVAL.type = aindex(nodlit(yyS[yypt-2].val), yyS[yypt-0].type);
 		}
 	case 323:
-		//line go.y:2016
+		//line go.y:1203
 		{
-			yyVAL.type = maptype(yyS[yypt-2].type, yyS[yypt-0].type);
 		}
 	case 324:
-		//line go.y:2020
+		//line go.y:1206
 		{
-			yyVAL.type = tostruct(yyS[yypt-1].list);
 		}
 	case 325:
-		//line go.y:2024
+		//line go.y:1209
 		{
-			yyVAL.type = tointerface(yyS[yypt-1].list);
 		}
 	case 326:
-		//line go.y:2028
+		//line go.y:1212
 		{
-			yyVAL.type = ptrto(yyS[yypt-0].type);
 		}
 	case 327:
-		//line go.y:2032
+		//line go.y:1215
 		{
-			yyVAL.type = typ(TCHAN);
-			yyVAL.type.type = yyS[yypt-0].type;
-			yyVAL.type.chan = Cboth;
 		}
 	case 328:
-		//line go.y:2038
+		//line go.y:1218
 		{
-			yyVAL.type = typ(TCHAN);
-			yyVAL.type.type = yyS[yypt-1].type;
-			yyVAL.type.chan = Cboth;
 		}
 	case 329:
-		//line go.y:2044
+		//line go.y:1221
 		{
-			yyVAL.type = typ(TCHAN);
-			yyVAL.type.type = yyS[yypt-0].type;
-			yyVAL.type.chan = Csend;
 		}
 	case 330:
-		//line go.y:2052
+		//line go.y:1226
 		{
-			yyVAL.type = typ(TCHAN);
-			yyVAL.type.type = yyS[yypt-0].type;
-			yyVAL.type.chan = Crecv;
 		}
 	case 331:
-		//line go.y:2060
+		//line go.y:1231
 		{
-			yyVAL.type = functype(nil, yyS[yypt-2].list, yyS[yypt-0].list);
 		}
 	case 332:
-		//line go.y:2066
+		//line go.y:1236
 		{
-			yyVAL.node = nod(ODCLFIELD, N, typenod(yyS[yypt-1].type));
-			if(yyS[yypt-2].sym)
-				yyVAL.node.left = newname(yyS[yypt-2].sym);
-			yyVAL.node.val = yyS[yypt-0].val;
 		}
 	case 333:
-		//line go.y:2073
+		//line go.y:1239
 		{
-			Type *t;
-		
-			t = typ(TARRAY);
-			t.bound = -1;
-			t.type = yyS[yypt-1].type;
-	
-			yyVAL.node = nod(ODCLFIELD, N, typenod(t));
-			if(yyS[yypt-3].sym)
-				yyVAL.node.left = newname(yyS[yypt-3].sym);
-			yyVAL.node.isddd = 1;
-			yyVAL.node.val = yyS[yypt-0].val;
 		}
 	case 334:
-		//line go.y:2089
+		//line go.y:1244
 		{
-			Sym *s;
-			Pkg *p;
-	
-			if(yyS[yypt-2].sym != S && strcmp(yyS[yypt-2].sym.name, "?") != 0) {
-				yyVAL.node = nod(ODCLFIELD, newname(yyS[yypt-2].sym), typenod(yyS[yypt-1].type));
-				yyVAL.node.val = yyS[yypt-0].val;
-			} else {
-				s = yyS[yypt-1].type.sym;
-				if(s == S && isptr[yyS[yypt-1].type.etype])
-					s = yyS[yypt-1].type.type.sym;
-				p = importpkg;
-				if(yyS[yypt-2].sym != S)
-					p = yyS[yypt-2].sym.pkg;
-				yyVAL.node = embedded(s, p);
-				yyVAL.node.right = typenod(yyS[yypt-1].type);
-				yyVAL.node.val = yyS[yypt-0].val;
-			}
 		}
 	case 335:
-		//line go.y:2111
+		//line go.y:1249
 		{
-			yyVAL.node = nod(ODCLFIELD, newname(yyS[yypt-4].sym), typenod(functype(fakethis(), yyS[yypt-2].list, yyS[yypt-0].list)));
 		}
 	case 336:
-		//line go.y:2115
+		//line go.y:1252
 		{
-			yyVAL.node = nod(ODCLFIELD, N, typenod(yyS[yypt-0].type));
 		}
 	case 337:
-		//line go.y:2120
+		//line go.y:1256
 		{
-			yyVAL.list = nil;
 		}
 	case 338:
 		yyVAL.list = yyS[yypt-0].list
 	case 339:
-		//line go.y:2127
+		//line go.y:1262
 		{
-			yyVAL.list = yyS[yypt-1].list;
 		}
 	case 340:
-		//line go.y:2131
+		//line go.y:1265
 		{
-			yyVAL.list = list1(nod(ODCLFIELD, N, typenod(yyS[yypt-0].type)));
 		}
 	case 341:
-		//line go.y:2141
+		//line go.y:1274
 		{
-			yyVAL.node = nodlit(yyS[yypt-0].val);
 		}
 	case 342:
-		//line go.y:2145
+		//line go.y:1277
 		{
-			yyVAL.node = nodlit(yyS[yypt-0].val);
-			switch(yyVAL.node.val.ctype){
-			case CTINT:
-			case CTRUNE:
-				mpnegfix(yyVAL.node.val.u.xval);
-				break;
-			case CTFLT:
-				mpnegflt(yyVAL.node.val.u.fval);
-				break;
-			case CTCPLX:
-				mpnegflt(&yyVAL.node.val.u.cval.real);
-				mpnegflt(&yyVAL.node.val.u.cval.imag);
-				break;
-			default:
-				yyerror("bad negated constant");
-			}
 		}
 	case 343:
-		//line go.y:2164
+		//line go.y:1280
 		{
-			yyVAL.node = oldname(pkglookup(yyS[yypt-0].sym.name, builtinpkg));
-			if(yyVAL.node.op != OLITERAL)
-				yyerror("bad constant %S", yyVAL.node.sym);
 		}
 	case 344:
 		yyVAL.node = yyS[yypt-0].node
 	case 345:
-		//line go.y:2173
+		//line go.y:1286
 		{
-			if(yyS[yypt-3].node.val.ctype == CTRUNE && yyS[yypt-1].node.val.ctype == CTINT) {
-				yyVAL.node = yyS[yypt-3].node;
-				mpaddfixfix(yyS[yypt-3].node.val.u.xval, yyS[yypt-1].node.val.u.xval, 0);
-				break;
-			}
-			yyS[yypt-1].node.val.u.cval.real = yyS[yypt-1].node.val.u.cval.imag;
-			mpmovecflt(&yyS[yypt-1].node.val.u.cval.imag, 0.0);
-			yyVAL.node = nodcplxlit(yyS[yypt-3].node.val, yyS[yypt-1].node.val);
 		}
 	case 348:
-		//line go.y:2189
+		//line go.y:1294
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 349:
-		//line go.y:2193
+		//line go.y:1297
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 350:
-		//line go.y:2199
+		//line go.y:1302
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 351:
-		//line go.y:2203
+		//line go.y:1305
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	case 352:
-		//line go.y:2209
+		//line go.y:1310
 		{
-			yyVAL.list = list1(yyS[yypt-0].node);
 		}
 	case 353:
-		//line go.y:2213
+		//line go.y:1313
 		{
-			yyVAL.list = list(yyS[yypt-2].list, yyS[yypt-0].node);
 		}
 	}
 	goto yystack /* stack new state and value */
