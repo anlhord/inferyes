@@ -1316,11 +1316,6 @@ hidden_interfacedcl_list:
 %%
 
 func fixlbrace(lbr int) {
-	// If the opening brace was an LBODY,
-	// set up for another one now that we're done.
-	// See comment in lex.c about loophack.
-	if(lbr == LBODY) {
-		loophack = 1;
-	}
+
 }
 
