@@ -2148,15 +2148,15 @@ yydefault:
 		{
 		}
 	case 314:
-		yyVAL.type = yyS[yypt-0].type
+		yyVAL.typ = yyS[yypt-0].typ
 	case 315:
-		yyVAL.type = yyS[yypt-0].type
+		yyVAL.typ = yyS[yypt-0].typ
 	case 316:
-		yyVAL.type = yyS[yypt-0].type
+		yyVAL.typ = yyS[yypt-0].typ
 	case 317:
-		yyVAL.type = yyS[yypt-0].type
+		yyVAL.typ = yyS[yypt-0].typ
 	case 318:
-		yyVAL.type = yyS[yypt-0].type
+		yyVAL.typ = yyS[yypt-0].typ
 	case 319:
 		//line go.y:1191
 		{
